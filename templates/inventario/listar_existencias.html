@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% include 'header.html' %}1
 <script>
     $(document).ready(function() {
@@ -118,4 +119,126 @@
     </style>
 
 </div>
+=======
+{% include 'header.html' %}1
+<script>
+    $(document).ready(function() {
+        $("#txtCodigoProducto").change(function() {
+            alert("Cambió código del producto");
+        });
+    });
+</script>
+<div class="container">
+    <form method="POST" action="" enctype="multipart/form-data" name="FormExistencia">
+        <div class="card">
+            <div class="card-body">
+                <a href="{{url_for('existencias')}}"><i class="fa-solid fa-circle-plus fa-2xl"></i></a>
+                <a href="/edit/{{ lista_existencia[0] }}"><i class="fa-solid fa-pen-to-square fa-2xl"></i></a>
+                <a onclick="confirm('Está seguro de eliminar el registro?')" href="/destroy/{{ lista_existencia[0] }}"><i
+                    class="fa-solid fa-circle-minus fa-2xl fa-fade"></i></a>
+                <span class="vl"></span>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="display: inline-block;">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Stock</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a href="{{url_for('entrada_stock')}}" class="dropdown-item">Entrada de Stock</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li>
+                                <a href="{{url_for('salida_stock')}}" class="dropdown-item">Salida de Stock</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <span class="vl"></span>
+                <a href="{{url_for('vencimiento')}}"><i class="fa-solid fa-calendar-days fa-2xl"></i>Añadir Vencimiento</a>
+                <span class="vl"></span>
+                <a href="{{url_for('activar_producto')}}"><i class="fa-solid fa-toggle-off fa-2xl"></i></i>Desactivar Producto</a>
+                <span class="vl"></span>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="display: inline-block;">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mostrar</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a href="{{url_for('create')}}" class="dropdown-item">Todos los productos</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li>
+                                <a href="{{url_for('listar_estantes')}}" class="dropdown-item">Productos con poco
+                                    Stock</a>
+                            </li>
+                            <li>
+                                <a href="{{url_for('listar_columnas')}}" class="dropdown-item">Sugerencias de
+                                        Compra</a>
+                            </li>
+                            <li>
+                                <a href="{{url_for('listar_unidades')}}" class="dropdown-item">Mostrar Productos
+                                            Activos</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <span class="vl"></span>
+                <a href="#"><i class="fa-solid fa-print fa-xl"></i></a>
+                <span class="vl"></span>
+            </div>
+        </div>
+    </form>
+    <table class="table table-light">
+        <thead class="thead-light">
+            <tr>
+                <th>Código de producto</th>
+                <th>Estante</th>
+                <th>Columna</th>
+                <th>Fecha</th>
+                <th>Existencia inicial</th>
+                <th>Existencia a la Fecha</th>
+                <th>Unidad</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for lista_existencia in lista_existencia %}
+
+            <tr>
+                <td>{{ lista_existencia[0] }}</td>
+                <td>{{ lista_existencia[1] }}</td>
+                <td>{{ lista_existencia[2] }}</td>
+                <td>{{ lista_existencia[3] }}</td>
+                <td>{{ lista_existencia[4] }}</td>
+                <td>{{ lista_existencia[5] }}</td>
+                <td>{{ lista_existencia[6] }}</td>
+            </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <windows class="onload"></windows>
+    <style>
+        .form-group {
+            display: inline-block
+        }
+        
+        .card-body a {
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+        
+        .vl {
+            border-left: 3px solid #E1E1E1;
+            height: 30px;
+            padding: 0 5px 0 5px;
+        }
+    </style>
+
+</div>
+>>>>>>> b49476977bd53748591974ec987f852a83e95e3a
 {% include 'footer.html' %}

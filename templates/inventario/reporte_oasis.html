@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% include 'header.html' %}
 <div class="form-group container">
     <form method="POST" action="/buscar_producto" enctype="multipart/form-data">
@@ -39,4 +40,47 @@
 </script>
 
 
+=======
+{% include 'header.html' %}
+<div class="form-group container">
+    <form method="POST" action="/buscar_producto" enctype="multipart/form-data">
+        <div class="card">
+            <div class="card-header">Reporte de Existencias</div>
+            <div class="card-body">
+                <h6 class="card-title">Opciones</h6>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="opcionProductos" id="selTodos" value="option1" checked />
+                    <label class="form-check-label" for="selTodos">
+            Todos los productos
+          </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="opcionProductos" id="selProducto" value="option2" />
+                    <label class="form-check-label" for="selProducto">
+            Seleccionar producto
+          </label>
+                </div>
+                <h6>Nombre del Producto</h6>
+                <div class="form-group">
+                    <input id="txtCodigoProducto" class="form-control" type="text" name="txtCodigoProducto" placeholder="Código del producto" style="display:inline;width:30%" disabled>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $("#selTodos").click(function() {
+            $("#txtCodigoProducto").prop("disabled", true);
+        });
+        $("#selProducto").click(function() {
+            $("#txtCodigoProducto").prop("disabled", false);
+            document.getElementById("txtCodigoProducto").focus();
+        });
+    });
+</script>
+
+
+>>>>>>> b49476977bd53748591974ec987f852a83e95e3a
 {% include 'footer.html' %}

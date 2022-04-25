@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="es">
 
@@ -177,4 +178,185 @@
       <hr />
     </div>
   </body>
+=======
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/da3169d5be.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <title>Inventario Redvital Barquisimeto</title>
+</head>
+
+<body style="
+      background-image: url('/static/redvital.png');
+      background-size: cover;
+      position: relative;
+      font-size: 16px;
+      line-height: 1.4;
+    ">
+    <div class="container">
+        <img class="img-thumbnail" src="/static/logo.png" alt="Redvital" width="10%" />
+        <h1>Inventario Redvital Barquisimeto</h1>
+        <hr />
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Almacén</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li>
+                            <a href="{{url_for('home')}}" class="nav-link active">Inicio</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Registros</a
+                >
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li>
+                    <a href="{{url_for('create')}}" class="dropdown-item"
+                      >Ubicaciones</a
+                    >
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider" />
+                  </li>
+                  <li>
+                    <a
+                      href="{{url_for('listar_estantes')}}"
+                      class="dropdown-item"
+                      >Rack</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="{{url_for('listar_columnas')}}"
+                      class="dropdown-item"
+                      >Columnas</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="{{url_for('listar_unidades')}}"
+                      class="dropdown-item"
+                      >Unidades de Medida</a
+                    >
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider" />
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{{url_for('productos')}}"
+                      >Productos Oasis</a
+                    >
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">Usuarios</a>
+                        </li>
+                    </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Movimientos</a
+                >
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li class="nav-item" style="list-style-type: none">
+                    <a class="nav-link" href="{{url_for('listar_existencia')}}"
+                      >Existencia</a
+                    >
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider" />
+                  </li>
+                  <li class="nav-item" style="list-style-type: none">
+                    <a class="nav-link" href="{{url_for('entradas')}}"
+                      >Entradas</a
+                    >
+                  </li>
+                  <li class="nav-item" style="list-style-type: none">
+                    <a class="nav-link" href="{{url_for('salidas')}}"
+                      >Salidas</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  >Pedidos</a
+                >
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li class="nav-item" style="list-style-type: none">
+                    <a class="nav-link" href="{{url_for('recibir_pedido')}}"
+                      >Recibir Pedido</a
+                    >
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider" />
+                  </li>
+                  <li class="nav-item" style="list-style-type: none">
+                    <a class="nav-link" href="{{url_for('registrar_pedido')}}"
+                      >Registrar Pedido</a
+                    >
+                  </li>
+                  <li class="nav-item" style="list-style-type: none">
+                    <a class="nav-link" href="{{url_for('aprobar_pedido')}}"
+                      >Aprobar Pedidos</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  >Reportes</a
+                >
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li class="nav-item" style="list-style-type: none">
+                    <a
+                      class="nav-link"
+                      href="{{url_for('reporte_movimientos')}}"
+                      >Entradas y salidas</a
+                    >
+                  </li>
+                  <li class="nav-item" style="list-style-type: none">
+                    <a class="nav-link" href="{{url_for('reporte_pedidos')}}"
+                      >Pedidos realizados</a
+                    >
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider" />
+                  </li>
+                  <li class="nav-item" style="list-style-type: none">
+                    <a class="nav-link" href="{{url_for('reporte_oasis')}}"
+                      >Existencia en Oasis</a
+                    >
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <hr />
+    </div>
+  </body>
+>>>>>>> b49476977bd53748591974ec987f852a83e95e3a
 </html>
