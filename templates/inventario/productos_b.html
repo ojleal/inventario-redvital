@@ -1,0 +1,109 @@
+{% include 'header.html' %}
+{% with messages= get_flashed_messages() %} {% if messages %}
+<div class="container alert alert-danger" role="alert">
+    {% for message in messages %} {{ message }} {% endfor %}
+</div>
+{% endif %} {% endwith %}
+<div class="form-group container">
+    <form method="POST" action="/buscar_producto" enctype="multipart/form-data">
+        <div class="card">
+            <div class="card-header">Inventario</div>
+            <div class="card-body">
+                <h5 class="card-title">Nombre del Producto</h5>
+                <p>
+                    <div class="form-group">
+                        <input id="txtCodigoProducto" class="form-control" type="text" name="txtCodigoProducto" placeholder="Código del producto" style="display:inline;width:30%">
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-success" value="Buscar" />
+                        <a href="{{url_for('productos')}}" class="btn btn-primary">Volver</a>
+                    </div>
+                    <hr>
+                </p>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="container table-responsive">
+    <table class="table align-middle table-light table-striped table-hover table-bordered table-sm">
+        <thead class="thead-dark">
+            <tr>
+                <th>Código Base Gráfico</th>
+                <th>Código de Barras</th>
+                <th>Descripción</th>
+                <th>Referencia</th>
+                <th>Línea de producto</th>
+                <th>Categoría</th>
+                <th>Existencia</th>
+                <th>Marca</th>
+                <th>Precio Bs.</th>
+                <th>Precio $</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for productos_b in productos_b %}
+            <tr>
+                <td>{{ productos_b[0] }}</td>
+                <td>{{ productos_b[1] }}</td>
+                <td>{{ productos_b[2] }}</td>
+                <td>{{ productos_b[3] }}</td>
+                <td>{{ productos_b[4] }}</td>
+                <td>{{ productos_b[5] }}</td>
+                <td>{{ productos_b[6] }}</td>
+                <td>{{ productos_b[7] }}</td>
+                <td>{{ productos_b[8] }}</td>
+                <td>{{ productos_b[9] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .table thead th {
+        vertical-align: middle !important;
+        text-align: center !important;
+        border-bottom: 2px solid #007bff;
+        text-transform: uppercase;
+    }
+    
+    .table-bordered td,
+    .table-bordered th {
+        border: 1px solid #212529;
+    }
+    
+    .table-striped>tbody>tr:nth-of-type(odd)>* {
+        --bs-table-accent-bg: #007bff;
+        color: var(--bs-table-striped-color);
+        color: #fff;
+    }
+    
+    .table .thead-dark th {
+        color: #fff;
+        background-color: #729bd9;
+        border-color: #32383e;
+        font-size: 14px;
+    }
+    
+    .table td,
+    .table th {
+        padding: .75rem;
+        vertical-align: top;
+        border-top: 1px solid #dee2e6;
+        font-size: 14px;
+    }
+    
+    thead tr th {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: #ffffff;
+    }
+    
+    .table-responsive {
+        height: 650px;
+        overflow: scroll;
+    }
+</style>
+{% include 'footer.html' %}

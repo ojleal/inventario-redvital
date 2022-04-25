@@ -1,0 +1,36 @@
+{% include 'header.html' %}
+<div class="container">
+  <table class="table table-light">
+    <thead class="thead-light">
+      <tr>
+        <th>Código de columna</th>
+        <th>Descripción</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for columnas in columnas %}
+
+      <tr>
+        <td>{{ columnas[0] }}</td>
+        <td>{{ columnas[1] }}</td>
+        <td>
+          <a href="{{url_for('columnas')}}"
+            ><i class="fa-solid fa-circle-plus fa-xl"></i
+          ></a>
+          <a href="/edit/{{ columnas[0] }}"
+            ><i class="fa-solid fa-pen-to-square fa-xl"></i
+          ></a>
+          <a
+            onclick="return confirm('Está seguro de eliminar el registro?')"
+            href="/destroy/{{ columnas[1] }}"
+            ><i class="fa-solid fa-circle-minus fa-xl fa-fade"></i
+          ></a>
+        </td>
+      </tr>
+
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+--> {% include 'footer.html' %}
