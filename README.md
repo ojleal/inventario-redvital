@@ -1,2 +1,2 @@
-# inventario-redvital
+# Inventario Redvital
 Sistema de control de inventario Redvital
