@@ -128,18 +128,23 @@ def buscar_producto():
 
 @app.route('/rotacion_producto', methods=['POST'])
 def rotacion_producto():
-    _Rif = 'J-50032880-0'
+    _Rif = "J-50032880-0"
     _fechaInicio = request.form['txtFechaInicio']
     _fechaFin = request.form['txtFechaFin']
+    from tkinter import messagebox
+    messagebox.showinfo("Prueba",message=_Rif)
+    messagebox.showinfo("Prueba",message=_fechaInicio)
+    messagebox.showinfo("Prueba",message=_fechaFin)
+    
     if _fechaInicio == '' or _fechaFin == "":
-        flash('Recuerde llenar todos los campos')
+        messagebox.showinfo('Advertencia',message='Recuerde llenar todos los campos')
         return redirect(url_for('reporte_rotacion'))
 
     cursor = cnxn.cursor()
 
     #Ejecución de función de existencia de productos
     #rotacion = "{CALL sp_dwr_1000_0126('J-50032880-0','2022-12-10','2022-12-16')}"
-    rotacion = "{CALL sp_dwr_1000_0126(%s,%s,%s)}"
+    rotacion = "CALL sp_dwr_1000_0126(%s,%s,%s)"
     datos = (_Rif,_fechaInicio,_fechaFin)
     cursor.execute(rotacion,datos)
 
