@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from conexion import DAO
 import funciones
 
@@ -77,7 +76,7 @@ def ejecutarOpcion(opcion):
 
 
 menuPrincipal()
-=======
+
 from conexion import DAO
 import funciones
 
@@ -156,4 +155,3 @@ def ejecutarOpcion(opcion):
 
 
 menuPrincipal()
->>>>>>> b49476977bd53748591974ec987f852a83e95e3a

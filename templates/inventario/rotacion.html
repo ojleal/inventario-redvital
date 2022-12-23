@@ -3,25 +3,29 @@
 <div class="form-group container">
     <form method="POST" action="/buscar_producto" enctype="multipart/form-data">
         <div class="card">
-            <div class="card-header">Inventario</div>
+            <div class="card-header">Reporte de rotación de productos</div>
             <div class="card-body">
                 <p>
                     <div class="form-group">
-                        <input id="txtCodigoProducto" class="form-control" type="text" name="txtCodigoProducto" placeholder="Código del producto" style="display:inline;width:30%">
-                        <select class="form-select" id="Opciones" aria-label="Seleccione una opción de búsqueda" style="display:inline;width:30%" onchange="changeOption();">
+                        <input id="txtFechaInicio" class="form-control" type="date" name="txtFechaInicio" placeholder="Fecha de inicio" style="display:inline;width:30%">
+                        <input id="txtFechaFin" class="form-control" type="date" name="txtFechaFin" placeholder="Fecha final" style="display:inline;width:30%">
+                        <input id="txtSucursal" class="form-control" type="text" name="txtSucursal" placeholder="Sucursal" style="display:inline;width:30%" disabled>
+                        <select class="form-select" id="Opciones" aria-label="Seleccione una Sucursal" style="display:inline;width:30%" onchange="changeOption();">
                             <option selected value="opcion">Seleccione una opción de búsqueda</option>
-                            <option value="Codigo">Código</option>
-                            <option value="Descripcion">Descripción</option>
-                            <option value="Barra">Barra</option>
-                            <option value="Referencia">Referencia</option>
-                            <option value="Linea">Línea de producto</option>
-                            <option value="Categoria">Categoría</option>
+                            <option value="003001">Valencia</option>
+                            <option value="003002">Barquisimeto</option>
+                            <option value="003003">Turmero</option>
+                            <option value="003004">La Yaguara</option>
+                            <option value="003005">Maracaibo</option>
+                            <option value="003006">La Urbina</option>
+                            <option value="003007">Guarenas</option>
+                            <option value="003008">La Guaira</option>
                         </select>
                     </div>
                     <br>
                     <div class="form-group">
-                        <input type="submit" class="btn btn-success" value="Buscar" />
-                        <a href="{{url_for('productos')}}" class="btn btn-primary">Volver</a>
+                        <input type="submit" class="btn btn-success" value="Ejecutar Consulta" />
+                        <a href="{{url_for('reporte_rotacion')}}" class="btn btn-primary">Volver</a>
                     </div>
                     <hr>
                 </p>
@@ -34,7 +38,8 @@
             //selectElement = document.querySelector('#Opciones');
             var selectBox = document.getElementById("Opciones");
             var selOpt = selectBox.options[selectBox.selectedIndex].value;
-            document.getElementsByName('txtCodigoProducto')[0].placeholder = selOpt;
+            document.getElementsByName('txtSucursal')[0].placeholder = selOpt;
+            document.getElementsByName('txtSucursal')[0].value = selOpt;
             return false;
         }
     </script>
@@ -47,28 +52,24 @@
                 <th>Código Base Gráfico</th>
                 <th>Código de Barras</th>
                 <th>Descripción</th>
-                <th>Referencia</th>
-                <th>Línea de producto</th>
-                <th>Categoría</th>
-                <th>Existencia</th>
-                <th>Marca</th>
-                <th>Precio Bs.</th>
-                <th>Precio $</th>
+                <th>Inventario Inicial</th>
+                <th>Salidas</th>
+                <th>Entradas</th>
+                <th>Inventario Final</th>
+                <th>Costo Unitario</th>
             </tr>
         </thead>
         <tbody>
-            {% for productos in productos %}
+            {% for rotacion_b in rotacion_b %}
             <tr>
-                <td>{{ productos[0] }}</td>
-                <td>{{ productos[1] }}</td>
-                <td>{{ productos[2] }}</td>
-                <td>{{ productos[3] }}</td>
-                <td>{{ productos[4] }}</td>
-                <td>{{ productos[5] }}</td>
-                <td>{{ productos[6] }}</td>
-                <td>{{ productos[7] }}</td>
-                <td>{{ productos[8] }}</td>
-                <td>{{ productos[9] }}</td>
+                <td>{{ rotacion_b[0] }}</td>
+                <td>{{ rotacion_b[1] }}</td>
+                <td>{{ rotacion_b[2] }}</td>
+                <td>{{ rotacion_b[3] }}</td>
+                <td>{{ rotacion_b[5] }}</td>
+                <td>{{ rotacion_b[6] }}</td>
+                <td>{{ rotacion_b[11] }}</td>
+                <td>{{ rotacion_b[12] }}</td>
             </tr>
             {% endfor %}
         </tbody>

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {% include 'header.html' %} {% with messages= get_flashed_messages() %} {% if messages %}
 <div class="container alert alert-danger" role="alert">
     {% for message in messages %} {{ message }} {% endfor %}
@@ -31,38 +30,4 @@
         </div>
     </form>
 </div>
-=======
-{% include 'header.html' %} {% with messages= get_flashed_messages() %} {% if messages %}
-<div class="container alert alert-danger" role="alert">
-    {% for message in messages %} {{ message }} {% endfor %}
-</div>
-{% endif %} {% endwith %}
-<div class="container">
-    <form method="POST" action="/store" enctype="multipart/form-data">
-        <div class="card">
-            <div class="card-header">Estantes del almacén</div>
-            <div class="card-body">
-                <h5 class="card-title">Descripción</h5>
-                <p class="card-text">
-                    <div class="form-group">
-                        <select class="form-select" name="txtCodUbicacion" id="txtCodUbicacion">
-                                <option selected>Seleccione almacén:</option>
-                                {% for ubicaciones in ubicaciones %}
-                                    <option value="{{ ubicaciones[0] }}">{{ ubicaciones[1] }}</option>
-                                {% endfor %}
-                            </select>
-                    </div>
-                    <div class="form-group">
-                        <input id="txtDescripcion" class="form-control" type="text" name="txtDescripcion">
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" class="btn btn-success" value="Agregar" />
-                        <a href="{{url_for('listar_estantes')}}" class="btn btn-primary">Regresar</a>
-                    </div>
-                </p>
-            </div>
-        </div>
-    </form>
-</div>
->>>>>>> b49476977bd53748591974ec987f852a83e95e3a
 {% include 'footer.html' %}

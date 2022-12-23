@@ -1,9 +1,11 @@
+from datetime import datetime
+from tkinter import messagebox
 from datetime import date
 from doctest import script_from_examples
 from django import forms
 
 from django.core.exceptions import ValidationError
-from cgi import print_form
+#from cgi import print_form
 from flaskext.mysql import MySQL
 from flask import Flask, redirect, url_for, render_template, request, flash
 from pymysql import Date
@@ -16,19 +18,18 @@ app.secret_key = "Redvital"
 mysql = MySQL()
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'R3dv1t4l/*'
+#app.config['MYSQL_DATABASE_PASSWORD'] = 'R3dv1t4l/*'
+app.config['MYSQL_DATABASE_PASSWORD'] = ''
 app.config['MYSQL_DATABASE_DB'] = 'inventario_redvital'
 mysql.init_app(app)
 
-# server = '10.5.10.5,2638'
-# database = 'T_003002'
-# username = 'dba'
-# password = 'sql'
-# cnxn = pyodbc.connect('DRIVER={"SQL Anywhere 12"};SERVER='+server +
-#                       ';DATABASE='+database+';UID='+username+';PWD=' + password)
-cnxn = pyodbc.connect('DSN=Oasis_store;UID=dba;PWD=sql')
+#server = 'tcp:10.5.10.5,2638'
+#database = 'T_003002_2'
+#username = 'dba'
+#password = 'sql'
+#cnxn = pyodbc.connect('DRIVER={"SQL Anywhere 17"};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+password)
+cnxn = pyodbc.connect('DSN=T_003002_2;UID=dba;PWD=sql')
 cursor = cnxn.cursor()
-
 
 @app.route('/')
 def home():
@@ -124,6 +125,28 @@ def buscar_producto():
     productos_b = cursor.fetchall()
     cnxn.commit()
     return render_template("inventario/productos_b.html", productos_b=productos_b)
+
+@app.route('/rotacion_producto', methods=['POST'])
+def rotacion_producto():
+    _Rif = 'J-50032880-0'
+    _fechaInicio = request.form['txtFechaInicio']
+    _fechaFin = request.form['txtFechaFin']
+    if _fechaInicio == '' or _fechaFin == "":
+        flash('Recuerde llenar todos los campos')
+        return redirect(url_for('reporte_rotacion'))
+
+    cursor = cnxn.cursor()
+
+    #Ejecución de función de existencia de productos
+    #rotacion = "{CALL sp_dwr_1000_0126('J-50032880-0','2022-12-10','2022-12-16')}"
+    rotacion = "{CALL sp_dwr_1000_0126(%s,%s,%s)}"
+    datos = (_Rif,_fechaInicio,_fechaFin)
+    cursor.execute(rotacion,datos)
+
+    rotacion_b = cursor.fetchall()
+    cnxn.commit()
+    return render_template("inventario/rotacion.html", rotacion_b=rotacion_b)
+
 
 
 @app.route('/store', methods=['POST'])
@@ -392,6 +415,18 @@ def reporte_pedidos():
 def reporte_oasis():
     return render_template("inventario/reporte_oasis.html")
 
+@ app.route('/reporte_rotacion')
+def reporte_rotacion():
+    return render_template("inventario/reporte_rotacion.html")
+
+@app.route('/rotacion')
+def rotacion():
+    return render_template("inventario/rotacion.html")
+
+
+@app.route('/tipo_busqueda')
+def tipo_busqueda():
+    return render_template("inventario/productos.html")
 
 if __name__ == '__main__':
     # DEBUG is SET to TRUE. CHANGE FOR PROD
