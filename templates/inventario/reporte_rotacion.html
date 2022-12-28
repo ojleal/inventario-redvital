@@ -1,6 +1,5 @@
 {% include 'header.html' %}
-<div class="form-group container">
-    <form method="POST" action="/rotacion_producto" enctype="multipart/form-data">
+<div class="form-group container">    <form method="POST" action="/rotacion_producto" enctype="multipart/form-data">
         <div class="card">
             <div class="card-header">Reporte de rotación de productos</div>
             <div class="card-body">
@@ -8,20 +7,33 @@
                     <div class="form-group">
                         <input id="txtFechaInicio" class="form-control" type="date" name="txtFechaInicio" placeholder="Fecha de inicio" style="display:inline;width:30%">
                         <input id="txtFechaFin" class="form-control" type="date" name="txtFechaFin" placeholder="Fecha final" style="display:inline;width:30%">
-                        <input id="txtSucursal" class="form-control" type="text" name="txtSucursal" placeholder="Sucursal" style="display:inline;width:30%" disabled>
-                        <select class="form-select" id="Opciones" aria-label="Seleccione una Sucursal" style="display:inline;width:30%" onchange="changeOption();">
-                            <option selected value="opcion">Seleccione una opción de búsqueda</option>
-                            <option value="003001">Valencia</option>
-                            <option value="003002">Barquisimeto</option>
-                            <option value="003003">Turmero</option>
-                            <option value="003004">La Yaguara</option>
-                            <option value="003005">Maracaibo</option>
-                            <option value="003006">La Urbina</option>
-                            <option value="003007">Guarenas</option>
-                            <option value="003008">La Guaira</option>
-                        </select>
+                        <input id="txtNroRif" class="form-control" type="text" name="txtNroRif" placeholder="RIF" style="display:inline;width:30%" disabled value="J-50032880-0">
                     </div>
                     <br>
+                    <div class="card">
+                        <div class="card-header">Tipo de Salida</div>
+                        <div class="card-body">
+                            <h6 class="card-title">Tipo de salida</h6>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="opcionSalidas" id="selPantalla" value="option1" checked />
+                                <label class="form-check-label" for="selPantalla">
+                                    Pantalla
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="opcionSalidas" id="selPDF" value="option2" />
+                                <label class="form-check-label" for="selPDF">
+                                    PDF
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="opcionSalidas" id="selExcel" value="option2" />
+                                <label class="form-check-label" for="selExcel">
+                                    Excel
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <input type="submit" class="btn btn-success" value="Ejecutar Consulta" />
                         <a href="{{url_for('reporte_rotacion')}}" class="btn btn-primary">Volver</a>
@@ -31,17 +43,6 @@
             </div>
         </div>
     </form>
-
-    <script type="text/javascript">
-        function changeOption() {
-            //selectElement = document.querySelector('#Opciones');
-            var selectBox = document.getElementById("Opciones");
-            var selOpt = selectBox.options[selectBox.selectedIndex].value;
-            document.getElementsByName('txtSucursal')[0].placeholder = selOpt;
-            document.getElementsByName('txtSucursal')[0].value = selOpt;
-            return false;
-        }
-    </script>
 </div>
 
 <div class="container table-responsive">

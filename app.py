@@ -1,3 +1,5 @@
+import pandas as pd
+import numpy as np
 from datetime import datetime
 from tkinter import messagebox
 from datetime import date
@@ -5,7 +7,7 @@ from doctest import script_from_examples
 from django import forms
 
 from django.core.exceptions import ValidationError
-#from cgi import print_form
+# from cgi import print_form
 from flaskext.mysql import MySQL
 from flask import Flask, redirect, url_for, render_template, request, flash
 from pymysql import Date
@@ -18,24 +20,24 @@ app.secret_key = "Redvital"
 mysql = MySQL()
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 app.config['MYSQL_DATABASE_USER'] = 'root'
-#app.config['MYSQL_DATABASE_PASSWORD'] = 'R3dv1t4l/*'
-app.config['MYSQL_DATABASE_PASSWORD'] = ''
+app.config['MYSQL_DATABASE_PASSWORD'] = 'R3dv1t4l/*'
 app.config['MYSQL_DATABASE_DB'] = 'inventario_redvital'
 mysql.init_app(app)
 
-#server = 'tcp:10.5.10.5,2638'
-#database = 'T_003002_2'
-#username = 'dba'
-#password = 'sql'
-#cnxn = pyodbc.connect('DRIVER={"SQL Anywhere 17"};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+password)
+# server = 'tcp:10.5.10.5,2638'
+# database = 'T_003002_2'
+# username = 'dba'
+# password = 'sql'
+# cnxn = pyodbc.connect('DRIVER={"SQL Anywhere 17"};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+password)
 cnxn = pyodbc.connect('DSN=T_003002_2;UID=dba;PWD=sql')
 cursor = cnxn.cursor()
 
+
 @app.route('/')
-def home():
-    sql = "SELECT * FROM `ubicaciones`"
+def index():
     conn = mysql.connect()
     cursor = conn.cursor()
+    sql = "SELECT * FROM `ubicaciones`"
     cursor.execute(sql)
 
     ubicacion = cursor.fetchall()
@@ -126,32 +128,129 @@ def buscar_producto():
     cnxn.commit()
     return render_template("inventario/productos_b.html", productos_b=productos_b)
 
+
+@app.route('/ubicacion_productos')
+def ubicacion_productos():
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    sql = "SELECT * FROM `ubicaciones`"
+    cursor.execute(sql)
+
+    ubicacion = cursor.fetchall()
+
+    sql = "SELECT * FROM `responsables`"
+    cursor.execute(sql)
+
+    responsable = cursor.fetchall()
+
+    sql = "SELECT * FROM `ubicacion_productos`"
+    cursor.execute(sql)
+
+    ubicacion_producto = cursor.fetchall()
+
+    conn.commit()
+    return render_template("inventario/ubicacion_productos.html", ubicacion=ubicacion, ubicacion_producto=ubicacion_producto, responsable=responsable)
+
+
+@app.route('/agregar_ubicacion', methods=['POST'])
+def agregar_ubicacion():
+    _codigo = request.form['txtCodigoProducto']
+    _fecha = request.form['txtFecha']
+    # Verificar valor y obtener código de la ubicación de la base de datos con el nombre de la ubicación
+    _desc_ubica = request.form['ubicacionProducto']
+    print(_desc_ubica)
+    if _codigo == '':
+        messagebox.showinfo(
+            'Advertencia', message='No introdujo el código del producto')
+        return redirect(url_for('ubicacion_productos'))
+
+    cursor = cnxn.cursor()
+    sql = "SELECT tv_producto.cod_interno,tv_barra.cod_barra2,tv_producto.txt_descripcion_larga FROM tv_producto JOIN tv_barra ON tv_producto.cod_interno = tv_barra.cod_interno where cod_barra2 = CONVERT(char,'%s') ORDER BY tv_producto.cod_interno" % _codigo
+
+    cursor.execute(sql)
+    datos_producto = cursor.fetchall()
+
+    for row in datos_producto[0:]:
+        _descrip = row[2]
+        _cod_ubica = _desc_ubica
+        _nomb_ubica = 'Estante 1'
+        _responsable = 'María Milagros García'
+
+    cnxn.commit()
+
+    datos = (_codigo, _fecha, _descrip, _cod_ubica, _nomb_ubica, _responsable)
+
+    sql = "INSERT INTO `ubicacion_productos` (`cod_producto`,`fecha_producto`, `des_producto`, `cod_ubica`, `desc_ubicacion`, `responsable`) VALUES (%s,%s,%s,%s,%s,%s);"
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    cursor.execute(sql, datos)
+    conn.commit()
+
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    sql = "SELECT * FROM `ubicaciones`"
+    cursor.execute(sql)
+
+    ubicacion = cursor.fetchall()
+
+    sql = "SELECT * FROM `ubicacion_productos`"
+    cursor.execute(sql)
+
+    ubicacion_producto = cursor.fetchall()
+
+    conn.commit()
+    return render_template("inventario/ubicacion_productos.html", ubicacion=ubicacion, ubicacion_producto=ubicacion_producto)
+
+
 @app.route('/rotacion_producto', methods=['POST'])
 def rotacion_producto():
     _Rif = "J-50032880-0"
     _fechaInicio = request.form['txtFechaInicio']
     _fechaFin = request.form['txtFechaFin']
-    from tkinter import messagebox
-    messagebox.showinfo("Prueba",message=_Rif)
-    messagebox.showinfo("Prueba",message=_fechaInicio)
-    messagebox.showinfo("Prueba",message=_fechaFin)
-    
+
     if _fechaInicio == '' or _fechaFin == "":
-        messagebox.showinfo('Advertencia',message='Recuerde llenar todos los campos')
+        messagebox.showinfo(
+            'Advertencia', message='Recuerde llenar todos los campos')
         return redirect(url_for('reporte_rotacion'))
 
     cursor = cnxn.cursor()
 
-    #Ejecución de función de existencia de productos
-    #rotacion = "{CALL sp_dwr_1000_0126('J-50032880-0','2022-12-10','2022-12-16')}"
-    rotacion = "CALL sp_dwr_1000_0126(%s,%s,%s)"
-    datos = (_Rif,_fechaInicio,_fechaFin)
-    cursor.execute(rotacion,datos)
+    # Parámetros del procedimiento
+    datos = (_Rif, _fechaInicio, _fechaFin)
+
+    rotacion = "exec sp_dwr_1000_0126 @rif = ?, @fecha_desde = ?, @fecha_hasta = ?"
+    datos = (_Rif, _fechaInicio, _fechaFin)
+
+    # Ejecutar el procedimiento almacenado con los parámetros
+    cursor.execute(rotacion, datos)
 
     rotacion_b = cursor.fetchall()
     cnxn.commit()
-    return render_template("inventario/rotacion.html", rotacion_b=rotacion_b)
 
+    # Exportar dataset a archivo CSV
+    # dataExcel = pd.DataFrame(rotacion_b)
+    # dataExcel.to_csv (r'd:\proyectos\inventario_redvital\rotacion.csv', index = True) # place 'r' before the path name
+
+    # dataExcel = pd.DataFrame(np.random.randn(5, 8), columns=['Código Interno', 'Código de Barra', 'Descripción', 'Inventario Inicial', 'Salidas', 'Entradas', 'Inventario Final', 'Precio Unitario'],
+    #              index=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'])
+    # writer = pd.ExcelWriter('rotacion.xlsx', engine='xlsxwriter')
+    # dataExcel.to_excel(writer, sheet_name='Rotación', startrow=2)
+
+    # Get book and sheet objects for futher manipulation below
+    # book = writer.book
+    # sheet = writer.sheets['Hoja1']
+
+    # Title
+    # bold = book.add_format({'bold': True, 'size': 24})
+    # sheet.write('A1', 'Rotación de productos', bold)
+
+    # Color negative values in the DataFrame in red
+    # format1 = book.add_format({'font_color': '#E93423'})
+    # sheet.conditional_format('B7:I8', {'type': 'cell', 'criteria': '<=', 'value': 0, 'format': format1})
+
+    # writer.save()
+
+    return render_template("inventario/rotacion.html", rotacion_b=rotacion_b)
 
 
 @app.route('/store', methods=['POST'])
@@ -247,6 +346,17 @@ def destroy(id):
 
     conn.commit()
     return redirect('/')
+
+
+# Procedimiento para borrar productos por ubicación
+# @app.route('/borrado/id_producto,<int:id>')
+# def destroy(id):
+#    conn = mysql.connect()
+#    cursor = conn.cursor()
+#    cursor.execute("DELETE FROM `ubicacion_productos` WHERE cod_producto = %s and cod_ubica = %s", (id))
+
+#    conn.commit()
+#    return redirect('/')
 
 
 @app.route('/edit/<int:id>')
@@ -420,9 +530,11 @@ def reporte_pedidos():
 def reporte_oasis():
     return render_template("inventario/reporte_oasis.html")
 
+
 @ app.route('/reporte_rotacion')
 def reporte_rotacion():
     return render_template("inventario/reporte_rotacion.html")
+
 
 @app.route('/rotacion')
 def rotacion():
@@ -432,6 +544,7 @@ def rotacion():
 @app.route('/tipo_busqueda')
 def tipo_busqueda():
     return render_template("inventario/productos.html")
+
 
 if __name__ == '__main__':
     # DEBUG is SET to TRUE. CHANGE FOR PROD

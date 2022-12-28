@@ -34,7 +34,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li>
-                            <a href="{{url_for('home')}}" class="nav-link active">Inicio</a>
+                            <a href="{{url_for('index')}}" class="nav-link active">Inicio</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Registros</a
@@ -76,6 +76,14 @@
                     <a class="dropdown-item" href="{{url_for('productos')}}"
                       >Productos Oasis</a
                     >
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{{url_for('ubicacion_productos')}}"
+                      >Ubicación de Productos</a
+                    >
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider" />
                   </li>
                   <li>
                     <a class="dropdown-item" href="#">Usuarios</a>
